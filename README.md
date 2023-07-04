@@ -1,8 +1,8 @@
-# Running a Docker Container for a Vite-React App
+# Running the Vite-React App
 
 This `README` provides instructions on how to build the Docker image and run the container for a React app created for POD using vite.
 
-## Steps
+## Methods
 
 ### Using Docker
 
