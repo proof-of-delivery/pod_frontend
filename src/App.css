@@ -6,6 +6,7 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100vw;
 }
 
 .header {
@@ -18,12 +19,6 @@ body{
 }
 
 .main {
-  height: 85vh;
+  height: 80vh;
   width: 100vw;
-}
-
-.footer {
-  width: 100vw;
-  height: 5vh;
-  background-color: rgb(234, 234, 234);
 }
