@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import '@fontsource/poppins';
 
-import WarehouseOrders from './pages/WarehouseOrders/warehouseOrders';
+import WarehouseOrders from './pages/warehouseOrders/WarehouseOrder';
 import PickupOrder from './pages/pickupOrder/PickupOrder';
 
 function App() {
@@ -46,6 +46,8 @@ function App() {
             <div className="menu">
               <MenuButton to="/warehouse">Warehouse Order</MenuButton>
               <MenuButton to="/pickup">Pickup Order</MenuButton>
+              <MenuButton to="/pickup">Packaging Details</MenuButton>
+              <MenuButton to="/pickup">Picku</MenuButton>
             </div>
             <Routes>
               <Route path="/warehouse" element={<WarehouseOrders/>}/>
