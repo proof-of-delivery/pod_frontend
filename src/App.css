@@ -20,4 +20,11 @@ body{
 .main {
   height: 80vh;
   width: 100vw;
+  padding: 2rem 3rem;;
+}
+
+.main .menu {
+  display: flex ; 
+  padding-bottom: 1.5rem;
+  gap: 1rem;
 }
