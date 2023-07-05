@@ -1,9 +1,10 @@
-import { useState } from 'react'
 import Logo from './assets/logo.svg'
 import './App.css'
+
 import { Button } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import '@fontsource/poppins';
 
 import WarehouseOrders from './pages/WarehouseOrders/warehouseOrders';
 import PickupOrder from './pages/pickupOrder/PickupOrder';
