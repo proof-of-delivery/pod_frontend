@@ -9,6 +9,7 @@ import '@fontsource/poppins';
 
 import WarehouseOrders from './pages/warehouseOrders/WarehouseOrders.jsx';
 import PickupOrder from './pages/pickupOrder/PickupOrder.jsx';
+import MenuButton from './components/MenuButton';
 
 function App() {
   
@@ -19,22 +20,6 @@ function App() {
       }
     }
   })
-
-  function MenuButton({ to, children }) {
-    const location = useLocation();
-    const isActive = location.pathname === to;
-    return (
-      <Button
-        component={Link}
-        to={to}
-        variant={isActive ? 'contained' : 'outlined'}
-        disableElevation
-        style={{ backgroundColor: isActive ? '#112355' : undefined }}
-      >
-        {children}
-      </Button>
-    );
-  }  
 
   return (
     <ThemeProvider theme={theme}>
