@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation} from 'react-router-dom';
 import '@fontsource/poppins';
 
-import WarehouseOrders from './pages/warehouseOrders/WarehouseOrders.jsx';
+import WarehouseOrders from './pages/warehouseOrders/warehouseOrders.jsx';
 import PickupOrder from './pages/pickupOrder/PickupOrder.jsx';
 import MenuButton from './components/MenuButton';
 
