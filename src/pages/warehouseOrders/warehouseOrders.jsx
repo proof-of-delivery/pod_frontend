@@ -3,7 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button, Autocomplete, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-
 import './style.css'
 
 function WarehouseOrders() {
@@ -18,11 +17,23 @@ function WarehouseOrders() {
 
   const [data, setData] = useState(fetched_data)
   
+  const handleSearch = (event) => {
+    const searchValue = event.target.value;
+    if (searchValue === '') {
+      setData(fetched_data);
+    } else {
+      const filteredData = fetched_data.filter((row) => row.name.toLowerCase().includes(searchValue.toLowerCase()));
+      setData(filteredData);
+    }
+  }
 
   const columns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'name', headerName: 'Name' },
-    { field: 'age', headerName: 'Age' },
+    { field: 'id', headerName: 'Id', width:80},
+    { field: 'documentNo', headerName: 'Document No', width:200 },
+    { field: 'date', headerName: 'Date', width:150 },
+    { field: 'status', headerName: 'Status', width:150 },
+    { field: 'customerId', headerName: 'Customer id', width:160 },
+    { field: 'purchaseOrderNo', headerName: 'Purchase Order No', width:200 },
   ];
   
   
@@ -33,21 +44,24 @@ function WarehouseOrders() {
           New
         </Button>
         <Autocomplete
-        freeSolo
-        id="search-wh-order"
-        disableClearable
-        options={data.map((option) => option.name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search input"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
+          freeSolo
+          id="search-wh-order"
+          disableClearable
+          options={data.map((option) => option.name)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search"
+              InputProps={{
+                ...params.InputProps,
+                type: 'search',
+              }}
+              onChange={handleSearch}
+              className='search-field' 
+              size='small'// Add custom width here
+            />
+          )}
+       />
 
       </div>
       <DataGrid 
@@ -59,7 +73,7 @@ function WarehouseOrders() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        density='standard'
       />
     </div>
   )
