@@ -19,9 +19,7 @@ body{
 }
 
 .main {
-  height: 80vh;
-  width: 100vw;
-  padding: 2rem 3rem;;
+  padding: 2rem 3rem;
 }
 
 .main .menu {
