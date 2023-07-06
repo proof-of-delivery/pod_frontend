@@ -13,4 +13,5 @@ This `README` provides instructions on how to build the Docker image and run the
 3. **Stop the container**: Run `docker stop proof-of-delivery`
 
 ### Using NPM
-1. **Run a Vite Server**: `npm run dev`
+1.  **Install the dependencies**: `npm install`
+2.  **Run a Vite Server**: `npm run dev`
