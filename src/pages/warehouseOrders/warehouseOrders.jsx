@@ -1,39 +1,47 @@
 import React, { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Autocomplete, TextField } from '@mui/material';
+import { Button, Autocomplete, TextField, Chip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import fdata from './data'
 
 import './style.css'
 
 function WarehouseOrders() {
-  const fetched_data = [
-    { id: 1, name: 'Alice', age: 25 },
-    { id: 2, name: 'Bob', age: 32 },
-    { id: 3, name: 'Charlie', age: 40 },
-    { id: 4, name: 'Dave', age: 28 },
-    { id: 5, name: 'Eve', age: 35 },
-    { id: 6, name: 'Frank', age: 45 },
-  ];
 
-  const [data, setData] = useState(fetched_data)
+  const [data, setData] = useState(fdata)
   
   const handleSearch = (event) => {
     const searchValue = event.target.value;
     if (searchValue === '') {
-      setData(fetched_data);
+      setData(fdata);
     } else {
-      const filteredData = fetched_data.filter((row) => row.name.toLowerCase().includes(searchValue.toLowerCase()));
+      const filteredData = fdata.filter((row) => row.customerId.toLowerCase().includes(searchValue.toLowerCase()));
       setData(filteredData);
     }
   }
 
   const columns = [
     { field: 'id', headerName: 'Id', width:80},
-    { field: 'documentNo', headerName: 'Document No', width:200 },
-    { field: 'date', headerName: 'Date', width:150 },
-    { field: 'status', headerName: 'Status', width:150 },
     { field: 'customerId', headerName: 'Customer id', width:160 },
+    { field: 'documentNo', headerName: 'Document No', width:200 },
     { field: 'purchaseOrderNo', headerName: 'Purchase Order No', width:200 },
+    { field: 'date', headerName: 'Date', width:150 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width:150,
+      renderCell: (params) => {
+        let color;
+        if (params.value === 'Cancelled') {
+          color = 'error';
+        } else if (params.value === 'Draft') {
+          color = 'warning';
+        } else if (params.value === 'Confirmed') {
+          color = 'success';
+        }
+        return <Chip label={params.value} color={color} />;
+      }
+    },
   ];
   
   
@@ -47,7 +55,7 @@ function WarehouseOrders() {
           freeSolo
           id="search-wh-order"
           disableClearable
-          options={data.map((option) => option.name)}
+          options={fdata.map((option) => option.customerId)}
           renderInput={(params) => (
             <TextField
               {...params}
