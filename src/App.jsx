@@ -1,7 +1,7 @@
 import Logo from './assets/logo.svg'
 import './App.css'
 
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import { Button } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation} from 'react-router-dom';
@@ -20,7 +20,16 @@ function App() {
       }
     }
   })
+  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const handleClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsDialogOpen(false);
+  };
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -31,7 +40,8 @@ function App() {
           <div className="main">
             <div className="menu">
               <MenuButton to="/">Warehouse Order</MenuButton>
-              <MenuButton to="/pickup">Pickup Order</MenuButton>
+              <MenuButton to="/pickup" onClick={handleClick}>Pickup Order</MenuButton>
+              {isDialogOpen && <DialogBox onClose={handleClose}/>}
             </div>
             <Routes>
               <Route path="/" element={<WarehouseOrders/>}/>
