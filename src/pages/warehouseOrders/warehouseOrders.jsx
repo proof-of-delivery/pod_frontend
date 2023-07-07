@@ -1,35 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Autocomplete, TextField, Chip } from '@mui/material';
+import { Button, Autocomplete, TextField, Chip, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import fdata from './data'
-
-import './style.css'
+import fdata from './data';
+import { Link } from 'react-router-dom';
+import WarehouseOrderForm from './components/WarehouseOrderForm';
+import './style.css';
 
 function WarehouseOrders() {
+  const [data, setData] = useState(fdata);
+  const [open, setOpen] = useState(false);
 
-  const [data, setData] = useState(fdata)
-  
   const handleSearch = (event) => {
     const searchValue = event.target.value;
     if (searchValue === '') {
       setData(fdata);
     } else {
-      const filteredData = fdata.filter((row) => row.customerId.toLowerCase().includes(searchValue.toLowerCase()));
+      const filteredData = fdata.filter((row) =>
+        row.customerId.toLowerCase().includes(searchValue.toLowerCase())
+      );
       setData(filteredData);
     }
-  }
+  };
 
   const columns = [
-    { field: 'id', headerName: 'Id', width:80},
-    { field: 'customerId', headerName: 'Customer id', width:160 },
-    { field: 'documentNo', headerName: 'Document No', width:200 },
-    { field: 'purchaseOrderNo', headerName: 'Purchase Order No', width:200 },
-    { field: 'date', headerName: 'Date', width:150 },
+    { field: 'id', headerName: 'Id', width: 80 },
+    { field: 'customerId', headerName: 'Customer id', width: 160 },
+    { field: 'documentNo', headerName: 'Document No', width: 200 },
+    { field: 'purchaseOrderNo', headerName: 'Purchase Order No', width: 200 },
+    { field: 'date', headerName: 'Date', width: 150 },
     {
       field: 'status',
       headerName: 'Status',
-      width:150,
+      width: 150,
       renderCell: (params) => {
         let color;
         if (params.value === 'Cancelled') {
@@ -40,15 +43,19 @@ function WarehouseOrders() {
           color = 'success';
         }
         return <Chip label={params.value} color={color} />;
-      }
+      },
     },
   ];
-  
-  
+
   return (
     <div>
-      <div className='form'>
-        <Button variant="contained" startIcon={<AddIcon/>} disableElevation>
+      <div className="form">
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          disableElevation
+          onClick={() => setOpen(true)}
+        >
           New
         </Button>
         <Autocomplete
@@ -65,15 +72,14 @@ function WarehouseOrders() {
                 type: 'search',
               }}
               onChange={handleSearch}
-              className='search-field' 
-              size='small'// Add custom width here
+              className="search-field"
+              size="small" // Add custom width here
             />
           )}
-       />
-
+        />
       </div>
-      <DataGrid 
-        rows={data} 
+      <DataGrid
+        rows={data}
         columns={columns}
         initialState={{
           pagination: {
@@ -81,10 +87,18 @@ function WarehouseOrders() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        density='standard'
+        density="standard"
       />
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xl">
+        <DialogContent>
+          <WarehouseOrderForm/>
+        </DialogContent>
+        {/* <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions> */}
+      </Dialog>
     </div>
-  )
+  );
 }
 
-export default WarehouseOrders
+export default WarehouseOrders;
