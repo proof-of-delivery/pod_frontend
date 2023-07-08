@@ -17,9 +17,11 @@ function WarehouseOrders() {
   const [selectedRow, setSelectedRow] = useState(null);
 
   const handleRowClick = (params) => {
-    setSelectedRow(params.row);
+    const selectedOrder = data.find((order) => order.id === params.row.id);
+    setSelectedRow(selectedOrder);
     setOpen(true);
   };
+  
 
   const handleClose = () => {
     setOpen(false);

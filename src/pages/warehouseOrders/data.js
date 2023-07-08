@@ -6,7 +6,26 @@ const data = [
       documentNo: 'D001',
       purchaseOrderNo: 'P001',
       date: '2022-01-01',
-      status: 'Draft'
+      status: 'Draft',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     },
     {
       id: "WHO/0000/2",
@@ -14,7 +33,26 @@ const data = [
       documentNo: 'D002',
       purchaseOrderNo: 'P002',
       date: '2022-02-01',
-      status: 'Confirmed'
+      status: 'Confirmed',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     },
     {
       id: "WHO/0000/3",
@@ -22,7 +60,26 @@ const data = [
       documentNo: 'D003',
       purchaseOrderNo: 'P003',
       date: '2022-03-01',
-      status: 'Cancelled'
+      status: 'Cancelled',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     },
     {
       id: "WHO/0000/4",
@@ -30,7 +87,26 @@ const data = [
       documentNo: 'D004',
       purchaseOrderNo: 'P004',
       date: '2022-04-01',
-      status: 'Draft'
+      status: 'Draft',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     },
     {
       id: "WHO/0000/5",
@@ -38,7 +114,26 @@ const data = [
       documentNo: 'D005',
       purchaseOrderNo: 'P005',
       date: '2022-05-01',
-      status: 'Confirmed'
+      status: 'Confirmed',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     },
     {
       id: "WHO/0000/6",
@@ -46,7 +141,26 @@ const data = [
       documentNo: 'D006',
       purchaseOrderNo: 'P006',
       date: '2022-06-01',
-      status: 'Cancelled'
+      status: 'Cancelled',
+          items: [
+      {
+        id: 1,
+        position: 1,
+        itemNo: 'I001',
+        description: 'Item 1',
+        supplierItemNo: 'S001',
+        quantity: 10,
+      },
+      {
+        id: 2,
+        position: 2,
+        itemNo: 'I002',
+        description: 'Item 2',
+        supplierItemNo: 'S002',
+        quantity: 20,
+      },
+    ],
+
     }
 ]
 
