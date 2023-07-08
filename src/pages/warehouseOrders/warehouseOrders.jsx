@@ -1,41 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Autocomplete, TextField, Chip, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton } from '@mui/material';
+import { IconButton, Button, Autocomplete, TextField, Chip, Dialog, DialogTitle, DialogContent } from '@mui/material';
 
-import fdata from './data'
+import fdata from './data';
 import WarehouseOrderDetails from '../warehouseOrderDetails/WarehouseOrderDetails';
-import './style.css'
+import WarehouseOrderForm from './components/WarehouseOrderForm';
+import './style.css';
 
 function WarehouseOrders() {
-
-  const [data, setData] = useState(fdata)
-
-  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(fdata);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
   const handleRowClick = (params) => {
     const selectedOrder = data.find((order) => order.id === params.row.id);
     setSelectedRow(selectedOrder);
-    setOpen(true);
+    setDetailsOpen(true);
   };
-  
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDetailsClose = () => {
+    setDetailsOpen(false);
   };
-  
+
+  const handleFormClose = () => {
+    setFormOpen(false);
+  };
+
   const handleSearch = (event) => {
     const searchValue = event.target.value;
     if (searchValue === '') {
       setData(fdata);
     } else {
-      const filteredData = fdata.filter((row) => row.customerId.toLowerCase().includes(searchValue.toLowerCase()));
+      const filteredData = fdata.filter((row) =>
+        row.customerId.toLowerCase().includes(searchValue.toLowerCase())
+      );
       setData(filteredData);
     }
-  }
+  };
 
   const columns = [
     { field: 'id', headerName: 'Id', width:180},
@@ -46,7 +50,7 @@ function WarehouseOrders() {
     {
       field: 'status',
       headerName: 'Status',
-      width:150,
+      width: 150,
       renderCell: (params) => {
         let color;
         if (params.value === 'Cancelled') {
@@ -57,23 +61,22 @@ function WarehouseOrders() {
           color = 'success';
         }
         return <Chip label={params.value} color={color} />;
-      }
+      },
     },
   ];
-  
-  
+
   return (
     <div>
-      <div className='form'>
-        <Button variant="contained" startIcon={<AddIcon/>} disableElevation>
+      <div className="form">
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          disableElevation
+          onClick={() => setFormOpen(true)}
+        >
           New
         </Button>
-        <Autocomplete
-          freeSolo
-          id="search-wh-order"
-          disableClearable
-          options={fdata.map((option) => option.customerId)}
-          renderInput={(params) => (
+        <Autocomplete freeSolo id="search-wh-order" disableClearable options={fdata.map((option) => option.customerId)} renderInput={(params) => (
             <TextField
               {...params}
               label="Search"
@@ -82,15 +85,14 @@ function WarehouseOrders() {
                 type: 'search',
               }}
               onChange={handleSearch}
-              className='search-field' 
-              size='small'// Add custom width here
+              className="search-field"
+              size="small" // Add custom width here
             />
           )}
-       />
-
+        />
       </div>
-      <DataGrid 
-        rows={data} 
+      <DataGrid
+        rows={data}
         columns={columns}
         onRowClick={handleRowClick}
         initialState={{
@@ -99,14 +101,14 @@ function WarehouseOrders() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        density='standard'
+        density="standard"
       />
 
-      <Dialog fullWidth maxWidth="xl" open={open} onClose={handleClose}>
+      <Dialog fullWidth maxWidth="xl" open={detailsOpen} onClose={handleDetailsClose}>
         <DialogTitle style={{display: "flex", justifyContent: "space-between"}}>
           <h4 style={{margin: "0.5rem 0 0 0"}}>Warehouse ID: {selectedRow ? selectedRow.id : "Warehouse Id"}</h4>
          
-          <IconButton onClick={handleClose}>
+          <IconButton onClick={handleDetailsClose}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -115,8 +117,13 @@ function WarehouseOrders() {
         </DialogContent>
       </Dialog>
 
+      <Dialog open={formOpen} onClose={() => setFormOpen(false)} fullWidth maxWidth="xl">
+        <DialogContent>
+          <WarehouseOrderForm/>
+        </DialogContent>
+      </Dialog>
     </div>
-  )
+  );
 }
 
-export default WarehouseOrders
+export default WarehouseOrders;
