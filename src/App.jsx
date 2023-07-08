@@ -7,10 +7,11 @@ import '@fontsource/poppins';
 import WarehouseOrders from './pages/warehouseOrders/warehouseOrders.jsx';
 import PickupOrder from './pages/pickupOrder/PickupOrder.jsx';
 import MenuButton from './components/MenuButton';
-import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrderForm';
-
+import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrderForm'; 
+import { WarehouseOrderService } from './services/apiService'
 function App() {
-  
+  const warehouseOrderService = new WarehouseOrderService();
+
   const theme = createTheme({
     palette: {
       primary:{
@@ -37,6 +38,13 @@ function App() {
     },
   };
   
+  warehouseOrderService.getWarehouseOrders()
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
   return (
     <ThemeProvider theme={theme}>

@@ -1,7 +1,10 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { TextField, Button, Box, Grid } from '@mui/material';
+import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
+import { WarehouseOrderService, ItemService } from '../../../services/apiService';
+
 
 const initialValues = {
     customer_id : '',
@@ -22,12 +25,66 @@ const initialValues = {
 };
 
 const WarehouseOrderForm = () => {
+  
+  const warehouseOrderService = new WarehouseOrderService();
+  const itemService = new ItemService();
+
   const formik = useFormik({
-    initialValues,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  initialValues,
+  onSubmit: async (values) => {
+    // Create the warehouse order
+    console.log(values.items)
+    try {
+      const response = await warehouseOrderService.createWarehouseOrder({
+        customer_id: values.customer_id,
+        customer_address: values.customer_address,
+        doc_no: values.documentNo,
+        date: values.date,
+        purchase_order_no: values.purchaseOrderNo,
+        deliveryDate: values.deliveryDate
+      });
+
+      if (response.status === 201) {
+        // Success
+        console.log('Warehouse order created successfully');
+
+        // Create the items
+        const warehouseOrderId = response.data.id;
+        for (const item of values.items) {
+          try {
+            const itemResponse = await itemService.createItem({
+              position: item.position,
+              item_no: item.itemNo,
+              description: item.description,
+              supplier_item_id: item.supplierItemNo,
+              quantity: item.quantity,
+              warehouse_order_id: warehouseOrderId
+            });
+
+            if (itemResponse.status === 201) {
+              // Success
+              console.log('Item created successfully');
+            } else {
+              // Error
+              console.log('An error occurred while creating the item');
+            }
+          } catch (error) {
+            // Network error
+            console.log(error);
+          }
+        }
+      } else {
+        // Error
+        console.log('An error occurred while creating the warehouse order');
+      }
+    } catch (error) {
+      // Network error
+      console.log(error);
+    }
+    
+  }
+});
+
 
   const handleAddItem = () => {
     formik.setFieldValue('items', [...formik.values.items, ...initialValues.items]);

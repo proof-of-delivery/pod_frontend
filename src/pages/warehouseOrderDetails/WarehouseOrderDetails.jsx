@@ -16,9 +16,9 @@ function WarehouseOrderDetails({ selectedRow, data }) {
   const columns = [
     { field: 'id', headerName: 'ID', width: 120 },
     { field: 'position', headerName: 'Position', width: 120 },
-    { field: 'itemNo', headerName: 'Item No', width: 120 },
+    { field: 'item_no', headerName: 'Item No', width: 120 },
     { field: 'description', headerName: 'Description', width: 200 },
-    { field: 'supplierItemNo', headerName: 'Supplier Item No', width: 200 },
+    { field: 'supplier_item_id', headerName: 'Supplier Item No', width: 200 },
     { field: 'quantity', headerName: 'Quantity', width: 120 },
     { field: 'inventory_quantity', headerName: 'Inventory Quantity', width: 150 },
     
@@ -62,8 +62,9 @@ function WarehouseOrderDetails({ selectedRow, data }) {
         pageSizeOptions={[5, 10]}
         density='standard'/>
 
-    <Button variant='contained' color="success" disableElevation style={{margin: "1rem 1rem 0 0"}}>Confirm</Button> 
-    <Button variant='contained' color='error' disableElevation style={{margin: "1rem 1rem 0 0"}}>Cancel</Button>    
+    <Button variant='contained' color="success" disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Confirm</Button> 
+    <Button variant='contained' color='error' disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Cancel</Button>
+
     </div>
   )
 }

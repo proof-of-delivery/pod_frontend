@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '<URL>';
+const API_URL = 'https://pod-u1jp.onrender.com';
 
 class WarehouseOrderService {
   getWarehouseOrders() {
