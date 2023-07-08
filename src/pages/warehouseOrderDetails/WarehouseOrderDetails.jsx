@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useState }  from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import './style.css'
 
 function WarehouseOrderDetails({ selectedRow, data }) {
-    // console.log(selectedRow.items[0])
+  const [items, setItems] = useState(selectedRow.items);
+  
+  const handleCheckInventory = () => {
+    // Populate the inventory quantity field for each item
+    const updatedItems = items.map(item => ({
+      ...item,
+      inventory_quantity: Math.floor(Math.random() * 100) // Example: random inventory quantity
+    }));
+
+    setItems(updatedItems);
+  };
+
+  const handleUnreserve = () => {
+    // Remove the inventory quantity field for each item
+    const updatedItems = items.map(item => {
+      const { inventory_quantity, ...rest } = item;
+      return rest;
+    });
+    setItems(updatedItems);
+  };
+
   const fields = [
     { label: 'Purchase Order ID:', value: selectedRow.purchaseOrderNo },
     { label: 'Customer ID:', value: selectedRow.customerId },
@@ -24,28 +44,19 @@ function WarehouseOrderDetails({ selectedRow, data }) {
     
   ];
 
-  const items = [
-    {
-      id: 1,
-      position: 1,
-      itemNo: 'I001',
-      description: 'Item 1',
-      supplierItemNo: 'S001',
-      quantity: 10,
-    },
-    {
-      id: 2,
-      position: 2,
-      itemNo: 'I002',
-      description: 'Item 2',
-      supplierItemNo: 'S002',
-      quantity: 20,
-    },
-  ]
+
   return (
     <div>
-      <Button variant='outlined' style={{margin: "0 1rem 0 0"}}>Check Inventory</Button>
-      <Button variant='outlined'>Unreserve</Button>
+      <Button
+        variant="outlined"
+        style={{ margin: "0 1rem 0 0" }}
+        onClick={handleCheckInventory}
+      >
+        Check Inventory
+      </Button>
+      <Button variant="outlined" onClick={handleUnreserve}>
+        Unreserve
+      </Button>
       <div className="wh-header">
         {fields.map((field) => (
           <h6 key={field.label}>
@@ -54,7 +65,7 @@ function WarehouseOrderDetails({ selectedRow, data }) {
           </h6>
         ))}
       </div>
-      <DataGrid rows={selectedRow.items} columns={columns} initialState={{
+      <DataGrid rows={items} columns={columns} initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 5 },
           },
