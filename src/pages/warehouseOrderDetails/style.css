@@ -1,0 +1,8 @@
+.wh-header {
+    display: flex;
+    justify-content: start;
+}
+
+.wh-header h6 {
+    padding-right: 2rem;
+}
