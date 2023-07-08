@@ -1,15 +1,13 @@
 import Logo from './assets/logo.svg'
 import './App.css'
-
-import {useEffect} from 'react';
-import { Button } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { BrowserRouter as Router, Route, Routes, Link, useLocation} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation, Navigate} from 'react-router-dom';
 import '@fontsource/poppins';
 
 import WarehouseOrders from './pages/warehouseOrders/warehouseOrders.jsx';
 import PickupOrder from './pages/pickupOrder/PickupOrder.jsx';
 import MenuButton from './components/MenuButton';
+import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrderForm';
 
 function App() {
   
@@ -21,6 +19,25 @@ function App() {
     }
   })
 
+  const initialValues = {
+    warehouseOrder: {
+      documentNo: '',
+      date: '',
+      purchaseOrderNo: '',
+      deliveryDate: '',
+      items: [
+        {
+          position: 0,
+          itemNo: 0,
+          description: '',
+          supplierItemNo: '',
+          quantity: 0,
+        },
+      ],
+    },
+  };
+  
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -30,13 +47,17 @@ function App() {
           </div>
           <div className="main">
             <div className="menu">
-              <MenuButton to="/">Warehouse Order</MenuButton>
+              <MenuButton to="/warehouseorders">Warehouse Order</MenuButton>
               <MenuButton to="/pickup">Pickup Order</MenuButton>
             </div>
             <Routes>
-              <Route path="/" element={<WarehouseOrders/>}/>
-              <Route path="/pickup" element={<PickupOrder/>}/>
-            </Routes>
+              <Route path="/" element={<Navigate to="/warehouseorders" />} />
+              <Route path="/warehouseorders" element={<WarehouseOrders/>}>
+                <Route path="/warehouseorders/new" element={<WarehouseOrderForm initialValues={initialValues} />} />
+              </Route>
+              <Route path="/pickup" element={<PickupOrder />} />
+          </Routes>
+
           </div>
         </div>
       </Router>
@@ -45,3 +66,4 @@ function App() {
 }
 
 export default App
+
