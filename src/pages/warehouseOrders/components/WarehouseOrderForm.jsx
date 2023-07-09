@@ -10,7 +10,15 @@ import { DatePicker } from '@mui/x-date-pickers';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
-
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from "@mui/material";
 
 const initialValues = {
     purchaseOrderNo: '',
@@ -194,80 +202,84 @@ const WarehouseOrderForm = () => {
         </Grid>
       </Grid>
 
-        <Button variant='outlined' color='success' startIcon={<AddIcon/>} onClick={handleAddItem} style={{margin: "1rem 1rem 0 0"}}  disableElevation>
+        
+        <Button variant='outlined' color='success' startIcon={<AddIcon/>} onClick={handleAddItem} style={{margin: "1rem 0"}}  disableElevation>
               Add Item
         </Button>
-        <hr style={{margin: "1rem 0 1.5rem 0"}}/>
-        {formik.values.items.map((_, index) => (
-          <Box key={index}>
-            <Grid container spacing={2}>
-              <Grid item xs={1}>
-                <TextField
-                  name={`items.${index}.position`}
-                  label="Position"
-                  type="number"
-                  fullWidth
-                  size="small"
-                  value={formik.values.items[index].position}
-                  onChange={formik.handleChange}
-                  style={{marginBottom: "1rem"}}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  name={`items.${index}.itemNo`}
-                  label="Item No"
-                  type="number"
-                  fullWidth
-                  size="small"
-                  value={formik.values.items[index].itemNo}
-                  onChange={formik.handleChange}
-                  style={{marginBottom: "1rem"}}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  name={`items.${index}.description`}
-                  label="Description"
-                  fullWidth
-                  size="small"
-                  value={formik.values.items[index].description}
-                  onChange={formik.handleChange}
-                  style={{marginBottom: "1rem"}}
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  name={`items.${index}.supplierItemNo`}
-                  label="Supplier Item No"
-                  fullWidth
-                  size="small"
-                  value={formik.values.items[index].supplierItemNo}
-                  onChange={formik.handleChange}
-                  style={{marginBottom: "1rem"}}
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Position</TableCell>
+                <TableCell>Item No</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Supplier Item No</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {formik.values.items.map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <TextField
+                      name={`items.${index}.position`}
+                      type="number"
+                      fullWidth
+                      size="small"
+                      value={formik.values.items[index].position}
+                      onChange={formik.handleChange}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`items.${index}.itemNo`}
+                      type="number"
+                      fullWidth
+                      size="small"
+                      value={formik.values.items[index].itemNo}
+                      onChange={formik.handleChange}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`items.${index}.description`}
+                      fullWidth
+                      size="small"
+                      value={formik.values.items[index].description}
+                      onChange={formik.handleChange}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`items.${index}.supplierItemNo`}
+                      fullWidth
+                      size="small"
+                      value={formik.values.items[index].supplierItemNo}
+                      onChange={formik.handleChange}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <TextField
+                      name={`items.${index}.quantity`}
+                      type="number"
+                      fullWidth
+                      size="small"
+                      value={formik.values.items[index].quantity}
+                      onChange={formik.handleChange}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="contained" color="error" onClick={() => handleRemoveItem(index)} disableElevation>
+                      <DeleteIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <TextField
-                  name={`items.${index}.quantity`}
-                  label="Quantity"
-                  type="number"
-                  fullWidth
-                  size="small"
-                  value={formik.values.items[index].quantity}
-                  onChange={formik.handleChange}
-                  style={{marginBottom: "1rem"}}
-                />
-              </Grid>
-              <Grid item xs={1}>
-                <Button variant="contained" color='error' onClick={() => handleRemoveItem(index)} disableElevation>
-                  <DeleteIcon/>
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        ))}
         
 
         <Button variant="contained" type="submit" style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
