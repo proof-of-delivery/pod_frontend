@@ -1,39 +1,38 @@
-import firebase from './firebase'; // Import the firebase instance you initialized earlier
+import db from '../../firebase.js';
+import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs } from 'firebase/firestore';
 
 class FirebaseService {
   constructor() {
-    this.db = firebase.database();
+    this.db = db;
   }
 
-  // Method to get all inventory items from the Realtime Database
-  getInventoryItems(callback) {
-    const inventoryRef = this.db.ref('inventory_items');
-    inventoryRef.on('value', (snapshot) => {
-      const items = snapshot.val();
-      const itemList = [];
-      for (let id in items) {
-        itemList.push(items[id]);
-      }
-      callback(itemList);
+  // Method to get all inventory items from Cloud Firestore
+  async getInventoryItems() {
+    const inventoryRef = collection(this.db, 'inventory_items');
+    const snapshot = await getDocs(inventoryRef);
+    const itemList = [];
+    snapshot.forEach((doc) => {
+      itemList.push({ id: doc.id, ...doc.data() });
     });
+    return itemList;
   }
 
-  // Method to add a new inventory item to the Realtime Database
-  addInventoryItem(item) {
-    const inventoryRef = this.db.ref('inventory_items');
-    inventoryRef.push(item);
+  // Method to add a new inventory item to Cloud Firestore
+  async addInventoryItem(item) {
+    const inventoryRef = collection(this.db, 'inventory_items');
+    await addDoc(inventoryRef, item);
   }
 
-  // Method to update an existing inventory item in the Realtime Database
-  updateInventoryItem(itemNo, updates) {
-    const itemRef = this.db.ref(`inventory_items/${itemNo}`);
-    itemRef.update(updates);
+  // Method to update an existing inventory item in Cloud Firestore
+  async updateInventoryItem(itemNo, updates) {
+    const itemRef = doc(this.db, `inventory_items/${itemNo}`);
+    await updateDoc(itemRef, updates);
   }
 
-  // Method to delete an inventory item from the Realtime Database
-  deleteInventoryItem(itemNo) {
-    const itemRef = this.db.ref(`inventory_items/${itemNo}`);
-    itemRef.remove();
+  // Method to delete an inventory item from Cloud Firestore
+  async deleteInventoryItem(itemNo) {
+    const itemRef = doc(this.db, `inventory_items/${itemNo}`);
+    await deleteDoc(itemRef);
   }
 }
 

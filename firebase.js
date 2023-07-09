@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,14 +14,14 @@ const firebaseConfig = {
   projectId: "pod-mock",
   storageBucket: "pod-mock.appspot.com",
   messagingSenderId: "484939878260",
-  appId: "1:484939878260:web:7af3e9ed669caf19b96621",
-  measurementId: "G-HM5KZ5WEWN"
+  appId: "1:484939878260:web:add0a3a24fdcaf13b96621",
+  measurementId: "G-6SKEJD0VZC"
 };
 
 // Initialize Firebase
-const firebase = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 
+const db = getFirestore(app)
 
-
-export default firebase;
+export default db
