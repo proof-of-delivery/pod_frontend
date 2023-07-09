@@ -7,16 +7,23 @@ import { WarehouseOrderService, ItemService } from '../../../services/apiService
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
 
 
 const initialValues = {
-    customer_id : '',
-    customer_address: '',
+    purchaseOrderNo: '',
+    nameOfShip:'',
+    deliveryDate: null,
+    deliveryAddress: '',
+    weightPackage: '',
     documentNo: '',
     date: null,
-    purchaseOrderNo: '',
-    deliveryDate: null,
+    customer_id : '',
+    customer_address: '',
+    email: '',
+    assistance:'',
     items: [
       {
         position: 0,
@@ -34,61 +41,66 @@ const WarehouseOrderForm = () => {
   const itemService = new ItemService();
 
   const formik = useFormik({
-  initialValues,
-  onSubmit: async (values) => {
-    console.log(values)
-    // Create the warehouse order
-    console.log(values.items)
-    try {
-      const response = await warehouseOrderService.createWarehouseOrder({
-        customer_id: values.customer_id,
-        customer_address: values.customer_address,
-        doc_no: values.documentNo,
-        date: values.date,
-        purchase_order_no: values.purchaseOrderNo,
-        deliveryDate: values.deliveryDate
-      });
-
-      if (response.status === 201) {
-        // Success
-        console.log('Warehouse order created successfully');
-
-        // Create the items
-        const warehouseOrderId = response.data.id;
-        for (const item of values.items) {
-          try {
-            const itemResponse = await itemService.createItem({
-              position: item.position,
-              item_no: item.itemNo,
-              description: item.description,
-              supplier_item_id: item.supplierItemNo,
-              quantity: item.quantity,
-              warehouse_order_id: warehouseOrderId
-            });
-
-            if (itemResponse.status === 201) {
-              // Success
-              console.log('Item created successfully');
-            } else {
-              // Error
-              console.log('An error occurred while creating the item');
+    initialValues,
+    onSubmit: async values => {
+      console.log(values);
+      // Create the warehouse order
+      console.log(values.items);
+      try {
+        const response = await warehouseOrderService.createWarehouseOrder({
+          purchase_order_no: values.purchaseOrderNo,
+          name_of_ship: values.nameOfShip,
+          delivery_date: values.deliveryDate,
+          delivery_address: values.deliveryAddress,
+          weight_package: values.weightPackage,
+          doc_no: values.documentNo,
+          date: values.date,
+          customer_id: values.customer_id,
+          customer_address: values.customer_address,
+          email: values.email,
+          assistance: values.assistance
+        });
+  
+        if (response.status === 201) {
+          // Success
+          console.log("Warehouse order created successfully");
+  
+          // Create the items
+          const warehouseOrderId = response.data.id;
+          for (const item of values.items) {
+            try {
+              const itemResponse = await itemService.createItem({
+                position: item.position,
+                item_no: item.itemNo,
+                description: item.description,
+                supplier_item_id: item.supplierItemNo,
+                quantity: item.quantity,
+                warehouse_order_id: warehouseOrderId
+              });
+  
+              if (itemResponse.status === 201) {
+                // Success
+                console.log("Item created successfully");
+              } else {
+                // Error
+                console.log("An error occurred while creating the item");
+              }
+            } catch (error) {
+              // Network error
+              console.log(error);
             }
-          } catch (error) {
-            // Network error
-            console.log(error);
           }
+        } else {
+          // Error
+          console.log("An error occurred while creating the warehouse order");
         }
-      } else {
-        // Error
-        console.log('An error occurred while creating the warehouse order');
+      } catch (error) {
+        // Network error
+        console.log(error);
       }
-    } catch (error) {
-      // Network error
-      console.log(error);
     }
-    
-  }
-});
+  });
+  
 
 
   const handleAddItem = () => {
@@ -102,9 +114,10 @@ const WarehouseOrderForm = () => {
   };
 
   const fields = [
-    { name: "customer_id", label: "Customer_id", xs: 3, component: TextField },
-    { name: "customer_address", label: "Customer Address", xs: 3, component: TextField },
+    { name: "customer_id", label: "Customer_id", xs: 2, component: TextField },
+    { name: "customer_address", label: "Customer Address", xs: 2, component: TextField },
     { name: "documentNo", label: "Document No", xs: 3, component: TextField },
+    { name: "purchaseOrderNo", label: "Purchase Order No", xs: 3, component: TextField },
     {
       name: "date",
       label: "Date",
@@ -114,7 +127,6 @@ const WarehouseOrderForm = () => {
         formik.setFieldValue("date", value ? dayjs(value).format("YYYY-MM-DD") : "");
       }
     },
-    { name: "purchaseOrderNo", label: "Purchase Order No", xs: 3, component: TextField },
     {
       name: "deliveryDate",
       label: "Delivery Date",
@@ -130,30 +142,66 @@ const WarehouseOrderForm = () => {
   return (
     <div>
       <h1>Warehouse Order Form</h1>
-      <h3>Warehouse Order header</h3>
-
       <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          {fields.map(field => (
-            <Grid item xs={field.xs} key={field.name}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <field.component
-                  name={field.name}
-                  label={field.label}
-                  fullWidth
-                  value={formik.values[field.name]}
-                  onChange={field.onChange || formik.handleChange}
-                />
+      <Grid container spacing={2} justifyContent="start" gap={10}>
+        <Grid item xs={5}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField name="purchaseOrderNo" label="Purchase Order No" fullWidth size="small"  value={formik.values.purchaseOrderNo} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="nameOfShip" label="Name Of Ship" fullWidth size="small"  value={formik.values.nameOfShip} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="deliveryAddress" label="Delivery Address" fullWidth size="small"  value={formik.values.deliveryAddress} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="weightPackage" label="Weight/Package" fullWidth size="small"  value={formik.values.weightPackage} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker name="deliveryDate" label="Delivery Date" fullWidth size="small" value={formik.values.deliveryDate} onChange={value => {formik.setFieldValue("deliveryDate", value ? dayjs(value).format("YYYY-MM-DD") : ""); }} />
+            </LocalizationProvider>
+            </Grid>
+          </Grid> 
+        </Grid>
+        <Grid item xs={5}>
+          <Grid container spacing={2} >
+            <Grid item xs={4}>
+              <TextField name="customer_id" label="Customer ID" fullWidth size="small"  value={formik.values.customer_id} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={8}>
+              <TextField name="customer_address" label="Customer Address" fullWidth size="small"  value={formik.values.customer_address} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={5}>
+              <TextField name="documentNo" label="Document No" fullWidth size="small"  value={formik.values.documentNo} onChange={formik.handleChange} />
+            </Grid>
+            <Grid item xs={7}>
+              <TextField name="purchaseOrderNo" label="Purchase Order No" fullWidth size="small"  value={formik.values.purchaseOrderNo} onChange={formik.handleChange} />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField name="email" label="Email" type='email' fullWidth size="small"  value={formik.values.email} onChange={formik.handleChange} />
+            </Grid>
+            
+            <Grid item xs={6}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}> 
+                <DatePicker name="date" label="Date" fullWidth value={formik.values.date} onChange={value => {formik.setFieldValue("date", value ? dayjs(value).format("YYYY-MM-DD") : ""); }}/> 
               </LocalizationProvider>
             </Grid>
-          ))}
+            
+          </Grid> 
         </Grid>
+      </Grid>
 
-        <h3>Warehouse Order Items</h3>
+        <Button variant='outlined' color='success' startIcon={<AddIcon/>} onClick={handleAddItem} style={{margin: "1rem 1rem 0 0"}}  disableElevation>
+              Add Item
+        </Button>
+        <hr style={{margin: "1rem 0 1.5rem 0"}}/>
         {formik.values.items.map((_, index) => (
           <Box key={index}>
-            <Box display="flex">
-              <Box marginBottom={2} marginRight={2}>
+            <Grid container spacing={2}>
+              <Grid item xs={1}>
                 <TextField
                   name={`items.${index}.position`}
                   label="Position"
@@ -162,9 +210,10 @@ const WarehouseOrderForm = () => {
                   size="small"
                   value={formik.values.items[index].position}
                   onChange={formik.handleChange}
+                  style={{marginBottom: "1rem"}}
                 />
-              </Box>
-              <Box marginBottom={2} marginRight={2}>
+              </Grid>
+              <Grid item xs={2}>
                 <TextField
                   name={`items.${index}.itemNo`}
                   label="Item No"
@@ -173,9 +222,10 @@ const WarehouseOrderForm = () => {
                   size="small"
                   value={formik.values.items[index].itemNo}
                   onChange={formik.handleChange}
+                  style={{marginBottom: "1rem"}}
                 />
-              </Box>
-              <Box marginBottom={2} marginRight={2}>
+              </Grid>
+              <Grid item xs={2}>
                 <TextField
                   name={`items.${index}.description`}
                   label="Description"
@@ -183,9 +233,10 @@ const WarehouseOrderForm = () => {
                   size="small"
                   value={formik.values.items[index].description}
                   onChange={formik.handleChange}
+                  style={{marginBottom: "1rem"}}
                 />
-              </Box>
-              <Box marginBottom={2} marginRight={2}>
+              </Grid>
+              <Grid item xs={2}>
                 <TextField
                   name={`items.${index}.supplierItemNo`}
                   label="Supplier Item No"
@@ -193,9 +244,11 @@ const WarehouseOrderForm = () => {
                   size="small"
                   value={formik.values.items[index].supplierItemNo}
                   onChange={formik.handleChange}
+                  style={{marginBottom: "1rem"}}
+
                 />
-              </Box>
-              <Box marginBottom={2} marginRight={2}>
+              </Grid>
+              <Grid item xs={1}>
                 <TextField
                   name={`items.${index}.quantity`}
                   label="Quantity"
@@ -204,20 +257,20 @@ const WarehouseOrderForm = () => {
                   size="small"
                   value={formik.values.items[index].quantity}
                   onChange={formik.handleChange}
+                  style={{marginBottom: "1rem"}}
                 />
-              </Box>
-
-              <Button variant="contained" onClick={() => handleRemoveItem(index)} style={{marginBottom: "1rem"}}>
-                Remove
-              </Button>
-            </Box>
+              </Grid>
+              <Grid item xs={1}>
+                <Button variant="contained" color='error' onClick={() => handleRemoveItem(index)} disableElevation>
+                  <DeleteIcon/>
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         ))}
-        <Button variant="contained" onClick={handleAddItem} style={{margin: "0.5rem 1rem 0.5rem 0"}} >
-          Add Item
-        </Button>
+        
 
-        <Button variant="contained" type="submit" style={{margin: "0.5rem 1rem 0.5rem 0"}}>
+        <Button variant="contained" type="submit" style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
           Submit
         </Button>
       </form>
