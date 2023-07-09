@@ -40,23 +40,13 @@ function WarehouseOrderDetails({ selectedRow, data }) {
     { field: 'description', headerName: 'Description', width: 200 },
     { field: 'supplier_item_id', headerName: 'Supplier Item No', width: 200 },
     { field: 'quantity', headerName: 'Quantity', width: 120 },
-    { field: 'inventory_quantity', headerName: 'Inventory Quantity', width: 150 },
     
   ];
 
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        style={{ margin: "0 1rem 0 0" }}
-        onClick={handleCheckInventory}
-      >
-        Check Inventory
-      </Button>
-      <Button variant="outlined" onClick={handleUnreserve}>
-        Unreserve
-      </Button>
+      
       <div className="wh-header">
         {fields.map((field) => (
           <h6 key={field.label}>
