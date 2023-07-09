@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { TextField, Button, Box, Grid } from '@mui/material';
 import axios from 'axios';
@@ -10,6 +10,10 @@ import { DatePicker } from '@mui/x-date-pickers';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import dayjs from 'dayjs';
+import FirebaseService from '../../../services/firebaseService';
+import { query, where, getDocs, collection } from 'firebase/firestore';
+import db from '../../../../firebase.js';
+
 import {
   Table,
   TableBody,
@@ -47,6 +51,8 @@ const WarehouseOrderForm = () => {
   
   const warehouseOrderService = new WarehouseOrderService();
   const itemService = new ItemService();
+
+  const [itemData, setItemData] = useState({});
 
   const formik = useFormik({
     initialValues,
@@ -110,6 +116,45 @@ const WarehouseOrderForm = () => {
   });
   
 
+  const handleItemNoChange = async (event, index) => {
+    // Update the formik value for the itemNo field
+    formik.setFieldValue(`items.${index}.itemNo`, event.target.value);
+
+    // Get the entered item number
+    const itemNo = event.target.value;
+    console.log(itemNo)
+
+    // Query Cloud Firestore for inventory items with a matching item_no attribute
+    const inventoryRef = collection(db, 'inventory_items');
+    const q = query(inventoryRef, where('item_no', '==', itemNo));
+    const snapshot = await getDocs(q);
+    
+    console.log(snapshot)
+    if (!snapshot.empty) {
+      const item = snapshot.docs[0].data();
+      // If an item with a matching item_no attribute exists, update the itemData state with its data
+      setItemData((prevState) => ({
+        ...prevState,
+        [index]: {
+          quantityReserved: item.quantity_reserved,
+          quantityOnHand: item.quantity_on_hand,
+          quantityFree: item.quantity_free,
+        },
+      }));
+    } else {
+      // If no item with a matching item_no attribute exists, update the itemData state with zero values
+      setItemData((prevState) => ({
+        ...prevState,
+        [index]: {
+          quantityReserved: 0,
+          quantityOnHand: 0,
+          quantityFree: 0,
+        },
+      }));
+    }
+  };
+
+  
 
   const handleAddItem = () => {
     formik.setFieldValue('items', [...formik.values.items, ...initialValues.items]);
@@ -213,8 +258,11 @@ const WarehouseOrderForm = () => {
                 <TableCell>Position</TableCell>
                 <TableCell>Item No</TableCell>
                 <TableCell>Description</TableCell>
-                <TableCell>Supplier Item No</TableCell>
+                {/* <TableCell>Supplier Item No</TableCell> */}
                 <TableCell>Quantity</TableCell>
+                <TableCell>Quantity Reserved</TableCell>
+                <TableCell>Quantity On Hand</TableCell>
+                <TableCell>Quantity Free</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -238,7 +286,7 @@ const WarehouseOrderForm = () => {
                       fullWidth
                       size="small"
                       value={formik.values.items[index].itemNo}
-                      onChange={formik.handleChange}
+                      onChange={(event) => handleItemNoChange(event, index)}
                     />
                   </TableCell>
                   <TableCell>
@@ -250,7 +298,7 @@ const WarehouseOrderForm = () => {
                       onChange={formik.handleChange}
                     />
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <TextField
                       name={`items.${index}.supplierItemNo`}
                       fullWidth
@@ -258,7 +306,7 @@ const WarehouseOrderForm = () => {
                       value={formik.values.items[index].supplierItemNo}
                       onChange={formik.handleChange}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <TextField
                       name={`items.${index}.quantity`}
@@ -269,6 +317,9 @@ const WarehouseOrderForm = () => {
                       onChange={formik.handleChange}
                     />
                   </TableCell>
+                  <TableCell>{itemData[index] ? (itemData[index]?.quantityReserved) : "-"}</TableCell>
+                  <TableCell>{itemData[index] ? (itemData[index]?.quantityOnHand) : "-"}</TableCell>
+                  <TableCell>{itemData[index] ? (itemData[index]?.quantityFree) : "-"}</TableCell>
                   <TableCell>
                     <Button variant="contained" color="error" onClick={() => handleRemoveItem(index)} disableElevation>
                       <DeleteIcon />
