@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton, Button, Autocomplete, TextField, Chip, Dialog, DialogTitle, DialogContent } from '@mui/material';
+import { IconButton, Button, Autocomplete, TextField, Chip, Dialog, DialogTitle, DialogContent, Skeleton } from '@mui/material';
 import { WarehouseOrderService } from '../../services/apiService';
 import fdata from './data';
 import WarehouseOrderDetails from '../warehouseOrderDetails/WarehouseOrderDetails';
@@ -15,6 +15,7 @@ function WarehouseOrders() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const warehouseOrderService = new WarehouseOrderService();
 
@@ -27,6 +28,7 @@ function WarehouseOrders() {
           status: statuses[Math.floor(Math.random() * statuses.length)]
         }));
         setData(dataWithStatus);
+        setIsLoading(false)
       })
       .catch(error => {
         console.error(error);
@@ -111,18 +113,28 @@ function WarehouseOrders() {
           )}
         />
       </div>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        onRowClick={handleRowClick}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        density="standard"
-      />
+      {isLoading ? (
+        <>
+          <Skeleton variant="text" height={50} />
+          <Skeleton variant="rectangular" height={50} />
+          {Array.from(new Array(5)).map((_, index) => (
+            <Skeleton key={index} variant="rectangular" height={50} />
+          ))}
+        </>  
+      ) : (
+        <DataGrid
+          rows={data}
+          columns={columns}
+          onRowClick={handleRowClick}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          density="standard"
+        />
+      )}
 
       <Dialog fullWidth maxWidth="xl" open={detailsOpen} onClose={handleDetailsClose}>
         <DialogTitle style={{display: "flex", justifyContent: "space-between"}}>
