@@ -101,6 +101,32 @@ const WarehouseOrderForm = () => {
     formik.setFieldValue('items', newItems);
   };
 
+  const fields = [
+    { name: "customer_id", label: "Customer_id", xs: 3, component: TextField },
+    { name: "customer_address", label: "Customer Address", xs: 3, component: TextField },
+    { name: "documentNo", label: "Document No", xs: 3, component: TextField },
+    {
+      name: "date",
+      label: "Date",
+      xs: 3,
+      component: DatePicker,
+      onChange: value => {
+        formik.setFieldValue("date", value ? dayjs(value).format("YYYY-MM-DD") : "");
+      }
+    },
+    { name: "purchaseOrderNo", label: "Purchase Order No", xs: 3, component: TextField },
+    {
+      name: "deliveryDate",
+      label: "Delivery Date",
+      xs: 3,
+      component: DatePicker,
+      onChange: value => {
+        formik.setFieldValue("deliveryDate", value ? dayjs(value).format("YYYY-MM-DD") : "");
+      }
+    }
+  ];
+  
+
   return (
     <div>
       <h1>Warehouse Order Form</h1>
@@ -108,28 +134,19 @@ const WarehouseOrderForm = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <TextField name="customer_id" label="Customer_id" fullWidth  value={formik.values.customer_id} onChange={formik.handleChange} />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField name="customer_address" label="Customer Adress" fullWidth  value={formik.values.customer_address} onChange={formik.handleChange} />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField name="documentNo" label="Document No" fullWidth  value={formik.values.documentNo} onChange={formik.handleChange} />
-          </Grid>
-          <Grid item xs={3}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}> 
-              <DatePicker name="date" label="Date" fullWidth value={formik.values.date} onChange={value => {formik.setFieldValue("date", value ? dayjs(value).format("YYYY-MM-DD") : ""); }}/> 
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={3}>
-            <TextField name="purchaseOrderNo" label="Purchase Order No" fullWidth  value={formik.values.purchaseOrderNo} onChange={formik.handleChange} />
-          </Grid>
-          <Grid item xs={3}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker name="deliveryDate" label="Delivery Date" fullWidth value={formik.values.deliveryDate} onChange={value => {formik.setFieldValue("deliveryDate", value ? dayjs(value).format("YYYY-MM-DD") : ""); }} />
-          </LocalizationProvider>
-          </Grid>
+          {fields.map(field => (
+            <Grid item xs={field.xs} key={field.name}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <field.component
+                  name={field.name}
+                  label={field.label}
+                  fullWidth
+                  value={formik.values[field.name]}
+                  onChange={field.onChange || formik.handleChange}
+                />
+              </LocalizationProvider>
+            </Grid>
+          ))}
         </Grid>
 
         <h3>Warehouse Order Items</h3>
