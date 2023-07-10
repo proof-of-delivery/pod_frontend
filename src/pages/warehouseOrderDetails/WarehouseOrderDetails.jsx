@@ -63,8 +63,8 @@ function WarehouseOrderDetails({ selectedRow, data }) {
         pageSizeOptions={[5, 10]}
         density='standard'/>
 
-    <Button variant='contained' color="success" disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Confirm</Button> 
-    <Button variant='contained' color='error' disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Cancel</Button>
+    {/* <Button variant='contained' color="success" disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Confirm</Button> 
+    <Button variant='contained' color='error' disableElevation style={{margin: "1rem 1rem 0 0"}} disabled={selectedRow.status === 'completed' || selectedRow.status === 'cancelled'}>Cancel</Button> */}
 
     </div>
   )
