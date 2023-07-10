@@ -260,9 +260,9 @@ const WarehouseOrderForm = () => {
                 <TableCell>Description</TableCell>
                 {/* <TableCell>Supplier Item No</TableCell> */}
                 <TableCell>Quantity</TableCell>
+                <TableCell>Quantity Free</TableCell>
                 <TableCell>Quantity Reserved</TableCell>
                 <TableCell>Quantity On Hand</TableCell>
-                <TableCell>Quantity Free</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -317,9 +317,9 @@ const WarehouseOrderForm = () => {
                       onChange={formik.handleChange}
                     />
                   </TableCell>
-                  <TableCell>{itemData[index] ? (itemData[index]?.quantityReserved) : "-"}</TableCell>
-                  <TableCell>{itemData[index] ? (itemData[index]?.quantityOnHand) : "-"}</TableCell>
-                  <TableCell>{itemData[index] ? (itemData[index]?.quantityFree) : "-"}</TableCell>
+                  <TableCell>{itemData[index] ? (<p style={{color:"green"}}>{itemData[index]?.quantityFree}</p>) : "-"}</TableCell>
+                  <TableCell>{itemData[index] ? (<p style={{color:"red"}}>{itemData[index]?.quantityReserved}</p>) : "-"}</TableCell>
+                  <TableCell>{itemData[index] ? (<p style={{}}>{itemData[index]?.quantityOnHand}</p>) : "-"}</TableCell>
                   <TableCell>
                     <Button variant="contained" color="error" onClick={() => handleRemoveItem(index)} disableElevation>
                       <DeleteIcon />
@@ -332,9 +332,8 @@ const WarehouseOrderForm = () => {
         </TableContainer>
 
         
-
-        <Button variant="contained" type="submit" style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
-          Submit
+        <Button variant="contained" type="submit" color='success' style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
+          Confirm
         </Button>
       </form>
     </div>
