@@ -226,14 +226,14 @@ const WarehouseOrderForm = () => {
             <Grid item xs={8}>
               <TextField name="customer_address" label="Customer Address" fullWidth size="small"  value={formik.values.customer_address} onChange={formik.handleChange} />
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <TextField name="documentNo" label="Document No" fullWidth size="small"  value={formik.values.documentNo} onChange={formik.handleChange} />
             </Grid>
-            <Grid item xs={7}>
+            {/* <Grid item xs={7}>
               <TextField name="purchaseOrderNo" label="Purchase Order No" fullWidth size="small"  value={formik.values.purchaseOrderNo} onChange={formik.handleChange} />
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <TextField name="email" label="Email" type='email' fullWidth size="small"  value={formik.values.email} onChange={formik.handleChange} />
             </Grid>
             
