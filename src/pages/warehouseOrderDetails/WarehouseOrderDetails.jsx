@@ -26,9 +26,9 @@ function WarehouseOrderDetails({ selectedRow, data }) {
   };
 
   const fields = [
-    { label: 'Purchase Order ID:', value: selectedRow.purchaseOrderNo },
-    { label: 'Customer ID:', value: selectedRow.customerId },
-    { label: 'Document No:', value: selectedRow.documentNo },
+    { label: 'Purchase Order ID:', value: selectedRow.purchase_order_no },
+    { label: 'Customer ID:', value: selectedRow.customer_id },
+    { label: 'Document No:', value: selectedRow.doc_no },
     { label: 'Date:', value: selectedRow.date },
     { label: 'Status:', value: selectedRow.status },
   ];
