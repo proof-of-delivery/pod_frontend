@@ -332,8 +332,8 @@ const WarehouseOrderForm = () => {
         </TableContainer>
 
         
-        <Button variant="contained" type="submit" style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
-          Submit
+        <Button variant="contained" type="submit" color='success' style={{margin: "1rem 1rem 0.5rem 0"}} disableElevation>
+          Confirm
         </Button>
       </form>
     </div>
