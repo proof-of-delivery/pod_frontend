@@ -1,167 +1,65 @@
-// data.js
-const data = [
-    {
-      id: "WHO/0000/1",
-      customerId: 'C001',
-      documentNo: 'D001',
-      purchaseOrderNo: 'P001',
-      date: '2022-01-01',
-      status: 'Draft',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+import { faker } from '@faker-js/faker';
 
-    },
-    {
-      id: "WHO/0000/2",
-      customerId: 'C002',
-      documentNo: 'D002',
-      purchaseOrderNo: 'P002',
-      date: '2022-02-01',
-      status: 'Confirmed',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+export const mockCustomers = [
+  {
+    id: "C001",
+    name: "Customer 1"
+  },
+  {
+    id: "C002",
+    name: "Customer 2"
+  }
+];
 
-    },
-    {
-      id: "WHO/0000/3",
-      customerId: 'C003',
-      documentNo: 'D003',
-      purchaseOrderNo: 'P003',
-      date: '2022-03-01',
-      status: 'Cancelled',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+const generateMockWarehouseOrders = (numOrders) => {
+  const mockWarehouseOrders = [];
 
-    },
-    {
-      id: "WHO/0000/4",
-      customerId: 'C004',
-      documentNo: 'D004',
-      purchaseOrderNo: 'P004',
-      date: '2022-04-01',
-      status: 'Draft',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+  for (let i = 0; i < numOrders; i++) {
+    const order = {
+      orderNo: `WO00${i + 1}`,
+      customerId: mockCustomers[Math.floor(Math.random() * mockCustomers.length)].id,
+      assistanceId: `A00${i + 1}`,
+      shipName: faker.company.buzzAdjective(),
+      deliveryDate: faker.date.future().toLocaleDateString(),
+      deliveryAddress: faker.address.streetAddress(),
+      items: generateMockItems(),
+    };
 
-    },
-    {
-      id: "WHO/0000/5",
-      customerId: 'C005',
-      documentNo: 'D005',
-      purchaseOrderNo: 'P005',
-      date: '2022-05-01',
-      status: 'Confirmed',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+    mockWarehouseOrders.push(order);
+  }
 
-    },
-    {
-      id: "WHO/0000/6",
-      customerId: 'C006',
-      documentNo: 'D006',
-      purchaseOrderNo: 'P006',
-      date: '2022-06-01',
-      status: 'Cancelled',
-          items: [
-      {
-        id: 1,
-        position: 1,
-        itemNo: 'I001',
-        description: 'Item 1',
-        supplierItemNo: 'S001',
-        quantity: 10,
-      },
-      {
-        id: 2,
-        position: 2,
-        itemNo: 'I002',
-        description: 'Item 2',
-        supplierItemNo: 'S002',
-        quantity: 20,
-      },
-    ],
+  return mockWarehouseOrders;
+};
 
-    }
-]
+const generateMockItems = () => {
+  const unitOptions = ['pcs', 'kg', 'm'];
+  const randomIndex = Math.floor(Math.random() * unitOptions.length);
+  const numItems = faker.number.bigInt({ min: 1, max: 5 });
+  const items = [];
 
-export default data;
+  for (let i = 0; i < numItems; i++) {
+    const item = {
+      position: i + 1,
+      so: `SO00${i + 1}`,
+      itemNumber: `Item00${i + 1}`,
+      itemDescription: faker.commerce.productName(),
+      unit: unitOptions[randomIndex],
+      quantity: faker.number.bigInt({ min: 1, max: 10 }),
+      requestQuantity: 0,
+      confirmedQuantity: 0,
+      totalRequestedQuantity: 0,
+      totalConfirmedQuantity: 0,
+      pickedUpQuantity: 0,
+      quantityOnHand: 0,
+      quantityReserved: 0,
+      quantityBackordered: 0,
+      backorderQuantityReceived: 0,
+    };
+
+    items.push(item);
+  }
+
+  return items;
+};
+
+export const mockWarehouseOrders = generateMockWarehouseOrders(20);
