@@ -78,7 +78,7 @@ const WarehouseOrderItems = () => {
     {
       field: 'requestQuantity',
       headerName: 'Request Qty',
-      width: 100,
+      width: 150,
       editable: true,
       type: 'number',
     },
