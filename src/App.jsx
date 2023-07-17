@@ -9,6 +9,7 @@ import PickupOrder from './pages/pickupOrder/PickupOrder.jsx';
 import MenuButton from './components/MenuButton';
 import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrderForm'; 
 import { WarehouseOrderService } from './services/apiService'
+import WarehouseOrderItems from './pages/warehouseOrders/components/WarehouseOrderItem';
 function App() {
   const warehouseOrderService = new WarehouseOrderService();
 
@@ -60,9 +61,8 @@ function App() {
             </div>
             <Routes>
               <Route path="/" element={<Navigate to="/warehouseorders" />} />
-              <Route path="/warehouseorders" element={<WarehouseOrders/>}>
-                <Route path="/warehouseorders/new" element={<WarehouseOrderForm initialValues={initialValues} />} />
-              </Route>
+              <Route path="/warehouseorders" element={<WarehouseOrders/>}/>
+              <Route path="/warehouseorders/:orderNo/items" element={<WarehouseOrderItems />} />
               <Route path="/pickup" element={<PickupOrder />} />
           </Routes>
 
