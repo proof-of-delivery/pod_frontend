@@ -67,3 +67,33 @@ const generateMockItems = () => {
 };
 
 export const mockWarehouseOrders = generateMockWarehouseOrders(20);
+
+export const generateMockPickupOrders = (warehouseOrders) => {
+  const pickupOrders = [];
+
+  for (const warehouseOrder of warehouseOrders) {
+    const status = ['Pending', 'Completed'];
+    const randomIndex = Math.floor(Math.random() * status.length);
+    const orderId = warehouseOrder.orderNo;
+    const customerId = warehouseOrder.customerId;
+
+    const items = generateMockItems(); // Generate mock items for each pickup order
+
+    const pickupOrder = {
+      pickupOrderNo: `PUO00${pickupOrders.length + 1}`,
+      customerId,
+      warehouseOrderId: orderId,
+      pickupOrderDate: faker.date.future().toLocaleDateString(),
+      pickupDate: faker.date.future().toString(),
+      pickupTime: faker.date.anytime().toString(),
+      items, // Include the items property in the pickup order
+      status: status[randomIndex],
+    };
+
+    pickupOrders.push(pickupOrder);
+  }
+
+  return pickupOrders;
+};
+
+export const mockPickupOrders = generateMockPickupOrders(mockWarehouseOrders);
