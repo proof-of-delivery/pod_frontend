@@ -1,5 +1,3 @@
-// WarehouseOrders.jsx
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Select, InputLabel, MenuItem, FormControl, Grid } from '@mui/material';
@@ -8,16 +6,18 @@ import { mockCustomers, mockWarehouseOrders } from './data';
 
 const WarehouseOrders = () => {
   const [customer, setCustomer] = useState('');
-
+  
   const handleChange = (event) => {
     setCustomer(event.target.value);
   };
 
-  const filteredWarehouseOrders = mockWarehouseOrders.filter((order) => order.customerId === customer);
+  const filteredWarehouseOrders = customer
+    ? mockWarehouseOrders.filter((order) => order.customerId === customer)
+    : mockWarehouseOrders;
 
   return (
     <div style={{ padding: '0' }}>
-      <h3>Warehouse Orders</h3>
+      <h2>Warehouse Orders</h2>
       <FormControl sx={{ my: 1, minWidth: 200 }}>
         <InputLabel id="select-customer-label">Customer</InputLabel>
         <Select
