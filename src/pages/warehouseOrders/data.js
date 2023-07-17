@@ -8,6 +8,10 @@ export const mockCustomers = [
   {
     id: "C002",
     name: "Customer 2"
+  },
+  {
+    id: "C003",
+    name: "Customer 3"
   }
 ];
 
