@@ -10,6 +10,7 @@ import MenuButton from './components/MenuButton';
 import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrderForm'; 
 import { WarehouseOrderService } from './services/apiService'
 import WarehouseOrderItems from './pages/warehouseOrders/components/WarehouseOrderItem';
+import PickupOrderItems from './pages/pickupOrder/components/PickupOrderItems';
 function App() {
   const warehouseOrderService = new WarehouseOrderService();
 
@@ -57,13 +58,14 @@ function App() {
           <div className="main">
             <div className="menu">
               <MenuButton to="/warehouseorders">Warehouse Order</MenuButton>
-              <MenuButton to="/pickup">Pickup Order</MenuButton>
+              <MenuButton to="/pickuporders">Pickup Order</MenuButton>
             </div>
             <Routes>
               <Route path="/" element={<Navigate to="/warehouseorders" />} />
               <Route path="/warehouseorders" element={<WarehouseOrders/>}/>
               <Route path="/warehouseorders/:orderNo/items" element={<WarehouseOrderItems />} />
-              <Route path="/pickup" element={<PickupOrder />} />
+              <Route path="/pickuporders/" element={<PickupOrder />} />
+              <Route path="/pickuporders/:pickupOrderId/items" element={<PickupOrderItems />} />
           </Routes>
 
           </div>
