@@ -19,11 +19,12 @@ body{
 }
 
 .main {
-  padding: 2rem 3rem;
+  padding: 1rem 3rem 0 3rem;
+
 }
 
-.main .menu {
+.menu {
   display: flex ; 
-  padding-bottom: 1.5rem;
+  /* padding-bottom: 0.5rem; */
   gap: 1rem;
 }
