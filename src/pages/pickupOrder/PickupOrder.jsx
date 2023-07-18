@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid, FormControl, InputLabel, MenuItem, Select,Button } from '@mui/material';
 import PickupOrderCard from './components/PickupOrderCard';
 import { mockCustomers, mockPickupOrders } from '../warehouseOrders/data';
 
@@ -18,24 +18,30 @@ const PickupOrders = () => {
   return (
     <div style={{ padding: '0' }}>
       <h2>Pickup Orders</h2>
-      <FormControl sx={{ my: 1, minWidth: 200 }}>
-        <InputLabel id="select-customer-label">Customer</InputLabel>
-        <Select
-          labelId="select-customer-label"
-          value={customer}
-          onChange={handleChange}
-          label="Customer"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {mockCustomers.map((customer) => (
-            <MenuItem key={customer.id} value={customer.id}>
-              {customer.name}
+      <div className="div" style={{display: 'flex' ,justifyContent: 'space-between', alignItems: 'center'}}>
+        <FormControl sx={{ my: 1, minWidth: 200 }}>
+          <InputLabel id="select-customer-label">Customer</InputLabel>
+          <Select
+            labelId="select-customer-label"
+            value={customer}
+            onChange={handleChange}
+            label="Customer"
+          >
+            <MenuItem value="">
+              <em>None</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+            {mockCustomers.map((customer) => (
+              <MenuItem key={customer.id} value={customer.id}>
+                {customer.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <Button size="standard" variant="contained" disableElevation component={Link} to="/pickuporders/create">
+          Create Pickup Order
+        </Button>
+      </div>
       <Grid container spacing={2}>
         {filteredPickupOrders.map((order) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={order.pickupOrderNo}>

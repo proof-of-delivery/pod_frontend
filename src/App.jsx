@@ -11,6 +11,7 @@ import WarehouseOrderForm from './pages/warehouseOrders/components/WarehouseOrde
 import { WarehouseOrderService } from './services/apiService'
 import WarehouseOrderItems from './pages/warehouseOrders/components/WarehouseOrderItem';
 import PickupOrderItems from './pages/pickupOrder/components/PickupOrderItems';
+import PickupOrderCreate from './pages/pickupOrder/components/PickupOrderCreate';
 function App() {
   const warehouseOrderService = new WarehouseOrderService();
 
@@ -65,6 +66,7 @@ function App() {
               <Route path="/warehouseorders" element={<WarehouseOrders/>}/>
               <Route path="/warehouseorders/:orderNo/items" element={<WarehouseOrderItems />} />
               <Route path="/pickuporders/" element={<PickupOrder />} />
+              <Route path="/pickuporders/create" element={<PickupOrderCreate />} />
               <Route path="/pickuporders/:pickupOrderId/items" element={<PickupOrderItems />} />
           </Routes>
 
