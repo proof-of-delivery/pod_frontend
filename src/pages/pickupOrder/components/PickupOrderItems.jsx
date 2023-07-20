@@ -1,13 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { useParams, Link } from 'react-router-dom';
+import { Typography, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { mockPickupOrders } from '../../warehouseOrders/data';
 
 const PickupOrderItems = () => {
-  const { pickupOrderNo } = useParams();
-  console.log(pickupOrderNo)
-  const pickupOrder = mockPickupOrders.find((order) => order.pickupOrderNo === 'PUO002');
+  const { pickupOrderId } = useParams();
+  console.log(pickupOrderId)
+  const pickupOrder = mockPickupOrders.find((order) => order.pickupOrderNo === pickupOrderId);
 
   const columns = [
     { field: 'position', headerName: 'Position', width: 100 },
@@ -30,11 +30,17 @@ const PickupOrderItems = () => {
 
   return (
     <div>
-      <div style={{margin: '1rem 0'}}>
+      <div style={{margin: '1rem 0', display: 'flex', justifyContent: 'space-between', alignItems: 'end'}}>
 
-      <Typography variant="h4">Pickup Order Items</Typography>
-      <Typography variant="h7">Pickup Date and Time: {pickupOrder.pickupTime}</Typography><br/>
-      <Typography variant="h7">Status: {pickupOrder.status}</Typography>
+      <div>
+        <Typography variant="h4">Pickup Order</Typography>
+        <Typography variant="h7">Pickup Date and Time: {pickupOrder.pickupTime}</Typography><br/>
+        <Typography variant="h7">Status: {pickupOrder.status}</Typography>
+      </div>
+
+      <div className="">
+        <Button variant="contained" component={Link} to={`/packagingdetails/${pickupOrderId}/create`}>Create Packaging Details</Button>
+      </div>
       
       </div>
 
